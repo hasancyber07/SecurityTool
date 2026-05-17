@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Security Dashboard V4</title>
+
+<style>
+body {
+    background:#0a0a0a;
+    color:#00ff00;
+    font-family: monospace;
+}
+.box {
+    border:1px solid #00ff00;
+    padding:10px;
+    margin:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🔥 SECURITY DASHBOARD</h1>
+
+<div class="box">
+    STATUS: ONLINE ✔
+</div>
+
+<div class="box">
+    LOG OUTPUT:
+    <pre id="log">Loading...</pre>
+</div>
+
+<button onclick="loadLog()">REFRESH</button>
+
+<script>
+function loadLog() {
+    fetch("log.txt")
+    .then(res => res.text())
+    .then(data => {
+        document.getElementById("log").innerText = data;
+    });
+}
+
+setInterval(loadLog, 3000);
+loadLog();
+</script>
+
+</body>
+</html>
