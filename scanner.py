@@ -12,8 +12,8 @@ data = {
     "open_ports": open_ports
 }
 
-# BURANI SONRA DƏYİŞƏCƏYİK
-url = "https://YOUR-APP.onrender.com/log"
+
+url = "url = "https://securitytool-6tc6.onrender.com/log""
 
 response = requests.post(url, json=data)
 
