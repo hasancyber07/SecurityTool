@@ -13,7 +13,7 @@ data = {
 }
 
 
-url = "url = "https://securitytool-6tc6.onrender.com/log""
+url = "https://securitytool-6tc6.onrender.com/log"
 
 response = requests.post(url, json=data)
 
