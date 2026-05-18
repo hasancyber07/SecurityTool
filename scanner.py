@@ -1,19 +1,20 @@
-import socket
+import requests
 import random
 
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(("127.0.0.1", 55000))
-
+# scan ediləcək portlar
 ports = [22, 80, 443, 3306, 8080]
 
+# random open port simulation
 open_ports = [p for p in ports if random.choice([True, False])]
 
-message = f"OPEN PORTS: {open_ports}"
+# göndəriləcək data
+data = {
+    "open_ports": open_ports
+}
 
-client.send(message.encode())
+# BURANI SONRA DƏYİŞƏCƏYİK
+url = "https://YOUR-APP.onrender.com/log"
 
-response = client.recv(1024)
+response = requests.post(url, json=data)
 
-print("[SERVER RESPONSE]", response.decode())
-
-client.close()
+print("Server response:", response.text)

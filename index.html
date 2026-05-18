@@ -8,21 +8,40 @@ body {
     background:#0a0a0a;
     color:#00ff00;
     font-family: monospace;
+    text-align: center;
 }
+
 .box {
     border:1px solid #00ff00;
+    padding:15px;
+    margin:15px;
+}
+
+button {
+    background:black;
+    color:#00ff00;
+    border:1px solid #00ff00;
     padding:10px;
-    margin:10px;
+    cursor:pointer;
+}
+
+button:hover {
+    background:#00ff00;
+    color:black;
 }
 </style>
 </head>
 
 <body>
 
-<h1>🔥 SECURITY DASHBOARD</h1>
+<h1>?? SECURITY DASHBOARD</h1>
 
 <div class="box">
-    STATUS: ONLINE ✔
+    STATUS: ONLINE ?
+</div>
+
+<div class="box">
+    LAST UPDATE: <span id="time">-</span>
 </div>
 
 <div class="box">
@@ -34,14 +53,21 @@ body {
 
 <script>
 function loadLog() {
-    fetch("log.txt")
+    fetch("https://YOUR-APP.onrender.com/logs")
     .then(res => res.text())
     .then(data => {
         document.getElementById("log").innerText = data;
+        document.getElementById("time").innerText = new Date().toLocaleTimeString();
+    })
+    .catch(err => {
+        document.getElementById("log").innerText = "? Error loading logs...";
     });
 }
 
+// auto refresh every 3 seconds
 setInterval(loadLog, 3000);
+
+// first load
 loadLog();
 </script>
 
