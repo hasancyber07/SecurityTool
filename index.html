@@ -1,20 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Security Dashboard V4</title>
+<title>Security Dashboard PRO</title>
 
 <style>
 body {
     background:#0a0a0a;
     color:#00ff00;
     font-family: monospace;
-    text-align: center;
+    text-align:center;
 }
 
 .box {
     border:1px solid #00ff00;
     padding:15px;
     margin:15px;
+    border-radius:8px;
+}
+
+.status {
+    color: lime;
+    font-weight: bold;
+}
+
+#log {
+    text-align:left;
+    max-height:300px;
+    overflow:auto;
+    background:#111;
+    padding:10px;
 }
 
 button {
@@ -23,6 +37,7 @@ button {
     border:1px solid #00ff00;
     padding:10px;
     cursor:pointer;
+    margin:5px;
 }
 
 button:hover {
@@ -34,10 +49,10 @@ button:hover {
 
 <body>
 
-<h1>?? SECURITY DASHBOARD</h1>
+<h1>?? SECURITY DASHBOARD PRO</h1>
 
 <div class="box">
-    STATUS: ONLINE ?
+    STATUS: <span class="status">ONLINE ?</span>
 </div>
 
 <div class="box">
@@ -45,29 +60,47 @@ button:hover {
 </div>
 
 <div class="box">
-    LOG OUTPUT:
+    TOTAL LOGS: <span id="count">0</span>
+</div>
+
+<div class="box">
+    LOG STREAM:
     <pre id="log">Loading...</pre>
 </div>
 
 <button onclick="loadLog()">REFRESH</button>
+<button onclick="clearView()">CLEAR VIEW</button>
 
 <script>
+let lastData = "";
+
 function loadLog() {
     fetch("https://securitytool-6tc6.onrender.com/logs")
     .then(res => res.text())
     .then(data => {
-        document.getElementById("log").innerText = data;
-        document.getElementById("time").innerText = new Date().toLocaleTimeString();
+
+        if(data !== lastData){
+            document.getElementById("log").innerText = data;
+            lastData = data;
+        }
+
+        let lines = data.trim().split("\n");
+        document.getElementById("count").innerText = lines.length;
+
+        document.getElementById("time").innerText =
+            new Date().toLocaleTimeString();
     })
     .catch(err => {
-        document.getElementById("log").innerText = "? Error loading logs...";
+        document.getElementById("log").innerText = "Error loading logs...";
     });
 }
 
-// auto refresh every 3 seconds
-setInterval(loadLog, 3000);
+function clearView(){
+    document.getElementById("log").innerText = "";
+}
 
-// first load
+// auto refresh
+setInterval(loadLog, 2000);
 loadLog();
 </script>
 

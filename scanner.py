@@ -7,11 +7,11 @@ open_ports = [p for p in ports if random.choice([True, False])]
 data = {"open_ports": open_ports}
 
 headers = {
-    "x-api-key": "12345SECRET"
+    "x-api-key": "SECURE123"
 }
 
 url = "https://securitytool-6tc6.onrender.com/log"
 
 response = requests.post(url, json=data, headers=headers)
 
-print(response.text)
+print("Response:", response.text)
