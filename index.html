@@ -5,43 +5,85 @@
 
 <style>
 body {
-    background:#0a0a0a;
-    color:#00ff00;
+    margin:0;
     font-family: monospace;
-    text-align:center;
+    background:#050505;
+    color:#00ff99;
+    display:flex;
 }
 
-.box {
-    border:1px solid #00ff00;
-    padding:15px;
-    margin:15px;
-    border-radius:8px;
+/* SIDEBAR */
+.sidebar {
+    width:220px;
+    height:100vh;
+    background:#0b0b0b;
+    padding:20px;
+    border-right:1px solid #00ff99;
 }
 
-.status {
-    color: lime;
-    font-weight: bold;
+.sidebar h2 {
+    color:#00ff99;
+    margin-bottom:20px;
 }
 
-#log {
-    text-align:left;
-    max-height:300px;
-    overflow:auto;
-    background:#111;
+.menu {
+    margin-top:20px;
+}
+
+.menu div {
     padding:10px;
-}
-
-button {
-    background:black;
-    color:#00ff00;
-    border:1px solid #00ff00;
-    padding:10px;
+    margin:10px 0;
+    border:1px solid #00ff99;
     cursor:pointer;
-    margin:5px;
+}
+
+.menu div:hover {
+    background:#00ff99;
+    color:black;
+}
+
+/* MAIN */
+.main {
+    flex:1;
+    padding:20px;
+}
+
+/* CARDS */
+.cards {
+    display:flex;
+    gap:20px;
+}
+
+.card {
+    flex:1;
+    padding:20px;
+    border:1px solid #00ff99;
+    background:rgba(0,255,153,0.05);
+    border-radius:10px;
+}
+
+/* LOG BOX */
+.logbox {
+    margin-top:20px;
+    padding:20px;
+    border:1px solid #00ff99;
+    height:300px;
+    overflow:auto;
+    background:#0a0a0a;
+}
+
+/* BUTTON */
+button {
+    margin-top:10px;
+    padding:10px;
+    background:black;
+    color:#00ff99;
+    border:1px solid #00ff99;
+    cursor:pointer;
 }
 
 button:hover {
-    background:#00ff00;
+    background:#00ff99;
     color:black;
 }
 </style>
@@ -49,27 +91,47 @@ button:hover {
 
 <body>
 
-<h1>?? SECURITY DASHBOARD PRO</h1>
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>SECURITY PANEL</h2>
 
-<div class="box">
-    STATUS: <span class="status">ONLINE ?</span>
+    <div class="menu">
+        <div>Dashboard</div>
+        <div>Logs</div>
+        <div>Scanner</div>
+        <div>Settings</div>
+    </div>
 </div>
 
-<div class="box">
-    LAST UPDATE: <span id="time">-</span>
-</div>
+<!-- MAIN -->
+<div class="main">
 
-<div class="box">
-    TOTAL LOGS: <span id="count">0</span>
-</div>
+    <h1>?? SECURITY DASHBOARD PRO</h1>
 
-<div class="box">
-    LOG STREAM:
-    <pre id="log">Loading...</pre>
-</div>
+    <div class="cards">
+        <div class="card">
+            STATUS<br>
+            <b>ONLINE ?</b>
+        </div>
 
-<button onclick="loadLog()">REFRESH</button>
-<button onclick="clearView()">CLEAR VIEW</button>
+        <div class="card">
+            TOTAL LOGS<br>
+            <b id="count">0</b>
+        </div>
+
+        <div class="card">
+            LAST UPDATE<br>
+            <b id="time">-</b>
+        </div>
+    </div>
+
+    <div class="logbox">
+        <pre id="log">Loading...</pre>
+    </div>
+
+    <button onclick="loadLog()">REFRESH</button>
+
+</div>
 
 <script>
 let lastData = "";
@@ -79,10 +141,7 @@ function loadLog() {
     .then(res => res.text())
     .then(data => {
 
-        if(data !== lastData){
-            document.getElementById("log").innerText = data;
-            lastData = data;
-        }
+        document.getElementById("log").innerText = data;
 
         let lines = data.trim().split("\n");
         document.getElementById("count").innerText = lines.length;
@@ -95,11 +154,6 @@ function loadLog() {
     });
 }
 
-function clearView(){
-    document.getElementById("log").innerText = "";
-}
-
-// auto refresh
 setInterval(loadLog, 2000);
 loadLog();
 </script>
