@@ -1,20 +1,17 @@
 import requests
 import random
 
-# scan ediləcək portlar
 ports = [22, 80, 443, 3306, 8080]
-
-# random open port simulation
 open_ports = [p for p in ports if random.choice([True, False])]
 
-# göndəriləcək data
-data = {
-    "open_ports": open_ports
-}
+data = {"open_ports": open_ports}
 
+headers = {
+    "x-api-key": "12345SECRET"
+}
 
 url = "https://securitytool-6tc6.onrender.com/log"
 
-response = requests.post(url, json=data)
+response = requests.post(url, json=data, headers=headers)
 
-print("Server response:", response.text)
+print(response.text)
